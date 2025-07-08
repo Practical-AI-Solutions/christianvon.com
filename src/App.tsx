@@ -26,21 +26,22 @@ interface Paddle {
 
 function App() {
   const [gameStarted, setGameStarted] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
   const [bricks, setBricks] = useState<Brick[]>([])
   const [ball, setBall] = useState<Ball>({ x: 400, y: 300, dx: 3, dy: -3, radius: 12 })
   const [paddle, setPaddle] = useState<Paddle>({ x: 350, y: 560, width: 100, height: 10 })
   const [score, setScore] = useState(0)
 
-  const colors = ['#ff6b9d', '#45caff', '#96ceb4', '#ffeaa7', '#ff7675', '#a29bfe']
+  const colors = ['#ff00ff', '#00ffff', '#ff0080', '#8000ff', '#ff4000', '#00ff80']
 
   const initializeBricks = useCallback(() => {
     const newBricks: Brick[] = []
     for (let row = 0; row < 5; row++) {
       for (let col = 0; col < 10; col++) {
         newBricks.push({
-          x: col * 82 + 10,
+          x: col * 78 + 10,
           y: row * 25 + 50,
-          width: 75,
+          width: 68,
           height: 20,
           color: colors[row % colors.length],
           destroyed: false
@@ -54,6 +55,7 @@ function App() {
     setBall({ x: 400, y: 300, dx: 3, dy: -3, radius: 12 })
     setPaddle({ x: 350, y: 560, width: 100, height: 10 })
     setScore(0)
+    setGameOver(false)
     initializeBricks()
   }
 
@@ -63,7 +65,7 @@ function App() {
   }
 
   useEffect(() => {
-    if (!gameStarted) return
+    if (!gameStarted || gameOver) return
 
     const gameLoop = setInterval(() => {
       setBall(prevBall => {
@@ -107,9 +109,9 @@ function App() {
           return newBricks
         })
 
-        // Reset if ball goes off bottom
+        // Game over if ball goes off bottom
         if (newBall.y > 600) {
-          newBall = { x: 400, y: 300, dx: 3, dy: -3, radius: 12 }
+          setGameOver(true)
         }
 
         return newBall
@@ -117,11 +119,11 @@ function App() {
     }, 16)
 
     return () => clearInterval(gameLoop)
-  }, [gameStarted, paddle])
+  }, [gameStarted, gameOver, paddle])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!gameStarted) return
+      if (!gameStarted || gameOver) return
       const rect = document.getElementById('game-area')?.getBoundingClientRect()
       if (rect) {
         setPaddle(prev => ({
@@ -133,19 +135,19 @@ function App() {
 
     document.addEventListener('mousemove', handleMouseMove)
     return () => document.removeEventListener('mousemove', handleMouseMove)
-  }, [gameStarted])
+  }, [gameStarted, gameOver])
 
   if (!gameStarted) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex flex-col items-center justify-center">
         <div className="text-center mb-8">
-          <h1 className="text-7xl md:text-9xl font-bold text-white mb-4 tracking-tight">
+          <h1 className="text-7xl md:text-9xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-4 tracking-tight drop-shadow-2xl">
             christianvon.com
           </h1>
         </div>
         <button
           onClick={startGame}
-          className="px-8 py-4 bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold text-xl rounded-lg hover:from-pink-600 hover:to-cyan-600 transition-all transform hover:scale-105 shadow-lg"
+          className="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold text-xl rounded-lg hover:from-purple-700 hover:to-cyan-600 transition-all transform hover:scale-105 shadow-lg border-2 border-cyan-400"
         >
           🎮 PLAY BRICK BREAKER 🎮
         </button>
@@ -153,17 +155,44 @@ function App() {
     )
   }
 
+  if (gameOver) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex flex-col items-center justify-center">
+        <div className="text-center mb-8">
+          <h1 className="text-6xl font-bold bg-gradient-to-r from-red-400 to-purple-400 bg-clip-text text-transparent mb-4">
+            GAME OVER
+          </h1>
+          <div className="text-cyan-400 text-3xl font-bold mb-6">FINAL SCORE: {score}</div>
+          <div className="space-y-4">
+            <button
+              onClick={startGame}
+              className="block mx-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold text-xl rounded-lg hover:from-purple-700 hover:to-cyan-600 transition-all transform hover:scale-105 shadow-lg border-2 border-cyan-400"
+            >
+              🎮 PLAY AGAIN 🎮
+            </button>
+            <button
+              onClick={() => setGameStarted(false)}
+              className="block mx-auto px-6 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded hover:from-gray-700 hover:to-gray-800 transition-all border border-gray-500"
+            >
+              BACK TO HOME
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex flex-col items-center justify-center p-4">
       <div className="text-center mb-4">
-        <h1 className="text-4xl font-bold text-white mb-2">christianvon.com</h1>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2">christianvon.com</h1>
         <div className="text-cyan-400 text-xl font-bold">SCORE: {score}</div>
       </div>
       
       <div
         id="game-area"
-        className="relative bg-gray-900 border-4 border-cyan-400"
-        style={{ width: '800px', height: '600px' }}
+        className="relative bg-black border-4 border-purple-400 shadow-2xl"
+        style={{ width: '800px', height: '600px', boxShadow: '0 0 30px rgba(147, 51, 234, 0.5)' }}
       >
         {/* Bricks */}
         {bricks.map((brick, index) => (
@@ -211,7 +240,7 @@ function App() {
 
       <button
         onClick={() => setGameStarted(false)}
-        className="mt-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded hover:from-purple-600 hover:to-pink-600 transition-all"
+        className="mt-4 px-6 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded hover:from-gray-700 hover:to-gray-800 transition-all border border-gray-500"
       >
         BACK TO HOME
       </button>
