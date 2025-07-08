@@ -27,7 +27,7 @@ interface Paddle {
 function App() {
   const [gameStarted, setGameStarted] = useState(false)
   const [bricks, setBricks] = useState<Brick[]>([])
-  const [ball, setBall] = useState<Ball>({ x: 400, y: 300, dx: 4, dy: -4, radius: 8 })
+  const [ball, setBall] = useState<Ball>({ x: 400, y: 300, dx: 3, dy: -3, radius: 12 })
   const [paddle, setPaddle] = useState<Paddle>({ x: 350, y: 560, width: 100, height: 10 })
   const [score, setScore] = useState(0)
 
@@ -51,7 +51,7 @@ function App() {
   }, [colors])
 
   const resetGame = () => {
-    setBall({ x: 400, y: 300, dx: 4, dy: -4, radius: 8 })
+    setBall({ x: 400, y: 300, dx: 3, dy: -3, radius: 12 })
     setPaddle({ x: 350, y: 560, width: 100, height: 10 })
     setScore(0)
     initializeBricks()
@@ -109,7 +109,7 @@ function App() {
 
         // Reset if ball goes off bottom
         if (newBall.y > 600) {
-          newBall = { x: 400, y: 300, dx: 4, dy: -4, radius: 8 }
+          newBall = { x: 400, y: 300, dx: 3, dy: -3, radius: 12 }
         }
 
         return newBall
@@ -185,13 +185,14 @@ function App() {
 
         {/* Ball */}
         <div
-          className="absolute bg-white rounded-full shadow-lg"
+          className="absolute bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full border-2 border-white"
           style={{
             left: ball.x - ball.radius,
             top: ball.y - ball.radius,
             width: ball.radius * 2,
             height: ball.radius * 2,
-            boxShadow: '0 0 10px #fff'
+            boxShadow: '0 0 20px #ffff00, 0 0 40px #ff6600',
+            zIndex: 10
           }}
         />
 
