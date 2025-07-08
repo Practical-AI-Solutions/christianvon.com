@@ -139,54 +139,92 @@ function App() {
 
   if (!gameStarted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex flex-col items-center justify-center">
-        <div className="text-center mb-8">
-          <h1 className="text-7xl md:text-9xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-4 tracking-tight drop-shadow-2xl">
-            christianvon.com
-          </h1>
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900 flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Dark ambient background effects */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-600/10 rounded-full blur-3xl"></div>
         </div>
+        
+        <div className="text-center mb-12 relative z-10">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white mb-6 tracking-tight">
+            <span className="bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-transparent drop-shadow-2xl">
+              christianvon.com
+            </span>
+          </h1>
+          <div className="w-32 h-1 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mx-auto rounded-full mb-8 shadow-lg"></div>
+          <p className="text-gray-400 text-lg font-medium tracking-wide">Welcome to the void</p>
+        </div>
+        
         <button
           onClick={startGame}
-          className="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold text-xl rounded-lg hover:from-purple-700 hover:to-cyan-600 transition-all transform hover:scale-105 shadow-lg border-2 border-cyan-400"
+          className="px-10 py-5 bg-gradient-to-r from-purple-700 via-purple-600 to-cyan-600 text-white font-bold text-xl rounded-xl hover:from-purple-800 hover:to-cyan-700 transition-all duration-300 transform hover:scale-105 shadow-2xl border border-purple-400/50 relative z-10"
         >
-          🎮 PLAY BRICK BREAKER 🎮
+          <span className="flex items-center gap-3">
+            🎮 <span>PLAY BRICK BREAKER</span> 🎮
+          </span>
         </button>
+        
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="h-full w-full bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+        </div>
       </div>
     )
   }
 
   if (gameOver) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex flex-col items-center justify-center">
-        <div className="text-center mb-8">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-red-400 to-purple-400 bg-clip-text text-transparent mb-4">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900 flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Dark ambient background effects */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="text-center mb-8 relative z-10">
+          <div className="text-sm text-gray-500 mb-4 tracking-wider">christianvon.com</div>
+          <h1 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-red-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-6 drop-shadow-2xl">
             GAME OVER
           </h1>
-          <div className="text-cyan-400 text-3xl font-bold mb-6">FINAL SCORE: {score}</div>
+          <div className="text-cyan-400 text-3xl font-bold mb-8 drop-shadow-lg">FINAL SCORE: {score}</div>
           <div className="space-y-4">
             <button
               onClick={startGame}
-              className="block mx-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold text-xl rounded-lg hover:from-purple-700 hover:to-cyan-600 transition-all transform hover:scale-105 shadow-lg border-2 border-cyan-400"
+              className="block mx-auto px-8 py-4 bg-gradient-to-r from-purple-700 via-purple-600 to-cyan-600 text-white font-bold text-xl rounded-xl hover:from-purple-800 hover:to-cyan-700 transition-all duration-300 transform hover:scale-105 shadow-2xl border border-purple-400/50"
             >
               🎮 PLAY AGAIN 🎮
             </button>
             <button
               onClick={() => setGameStarted(false)}
-              className="block mx-auto px-6 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded hover:from-gray-700 hover:to-gray-800 transition-all border border-gray-500"
+              className="block mx-auto px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 text-gray-300 font-bold rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all border border-gray-600/50"
             >
               BACK TO HOME
             </button>
           </div>
+        </div>
+        
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="h-full w-full bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black flex flex-col items-center justify-center p-4">
-      <div className="text-center mb-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2">christianvon.com</h1>
-        <div className="text-cyan-400 text-xl font-bold">SCORE: {score}</div>
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900 flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      {/* Dark ambient background effects */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-600/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="text-center mb-6 relative z-10">
+        <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-transparent mb-2 drop-shadow-lg">
+          christianvon.com
+        </h1>
+        <div className="text-cyan-400 text-xl font-bold tracking-wider drop-shadow-lg">SCORE: {score}</div>
       </div>
       
       <div
@@ -240,10 +278,15 @@ function App() {
 
       <button
         onClick={() => setGameStarted(false)}
-        className="mt-4 px-6 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded hover:from-gray-700 hover:to-gray-800 transition-all border border-gray-500"
+        className="mt-6 px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 text-gray-300 font-bold rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all border border-gray-600/50 relative z-10"
       >
         BACK TO HOME
       </button>
+      
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="h-full w-full bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+      </div>
     </div>
   )
 }
