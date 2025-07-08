@@ -6,7 +6,7 @@ function App() {
           christianvon.com
         </h1>
         <p className="text-white/70 text-xl max-w-2xl mx-auto">
-          Comedy coming soon? Probably not. This motherfucker is trying his luck out in the professional world.
+          This motherfucker is trying his luck out in the professional world.
         </p>
       </div>
     </div>
